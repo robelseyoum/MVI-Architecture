@@ -5,7 +5,5 @@ import com.robelseyoum3.mviexample.model.User
 
 data class MainViewState(
     var blogPosts: List<BlogPost>? = null,
-    var user: User?
-) {
-
-}
+    var user: User? = null
+)
