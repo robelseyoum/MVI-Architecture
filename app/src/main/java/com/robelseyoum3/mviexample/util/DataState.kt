@@ -5,7 +5,6 @@ data class DataState<T>(
     var loading: Boolean = false,
     var data: T? = null
 ){
-
     companion object {
 
         fun <T> error(message: String) : DataState<T> {
