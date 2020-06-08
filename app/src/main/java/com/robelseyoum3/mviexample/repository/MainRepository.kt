@@ -7,29 +7,38 @@ import com.robelseyoum3.mviexample.ui.main.state.MainViewState
 import com.robelseyoum3.mviexample.util.ApiEmptyResponse
 import com.robelseyoum3.mviexample.util.ApiErrorResponse
 import com.robelseyoum3.mviexample.util.ApiSuccessResponse
+import com.robelseyoum3.mviexample.util.DataState
 
 object MainRepository {
 
-    fun getBlogPosts() : LiveData<MainViewState>{
+    fun getBlogPosts() : LiveData<DataState<MainViewState>>{
         return Transformations
             .switchMap(RetrofitBuilder.apiService.getBlogPosts()){apiResponse ->
-                object : LiveData<MainViewState>(){
+                object : LiveData<DataState<MainViewState>>(){
                     override fun onActive() {
                         super.onActive()
                         when(apiResponse){
 
                             is ApiSuccessResponse -> {
-                                value = MainViewState(
-                                    blogPosts = apiResponse.body
+                                value = DataState.data(
+                                    data = MainViewState(
+                                        blogPosts = apiResponse.body
+                                    )
                                 )
                             }
 
                             is ApiErrorResponse -> {
-                                value = MainViewState() //Handle error?
+                                //Handle error?
+                                value = DataState.error(
+                                    message = apiResponse.errorMessage
+                                )
                             }
 
                             is ApiEmptyResponse -> {
-                                value = MainViewState() //Handle empty/error
+                                //Handle empty/error
+                                value = DataState.error(
+                                    message = "HTTP 204. Returned NOTHING!"
+                                )
                             }
                         }
                     }
@@ -37,26 +46,34 @@ object MainRepository {
             }
     }
 
-    fun getUser(userId: String) : LiveData<MainViewState>{
+    fun getUser(userId: String) : LiveData<DataState<MainViewState>>{
         return Transformations
-            .switchMap(RetrofitBuilder.apiService.getUser(userId)){apiResponse ->
-                object : LiveData<MainViewState>(){
+            .switchMap(RetrofitBuilder.apiService.getUser(userId)){ apiResponse ->
+                object : LiveData<DataState<MainViewState>>(){
                     override fun onActive() {
                         super.onActive()
                         when(apiResponse){
 
                             is ApiSuccessResponse -> {
-                                value = MainViewState(
-                                    user = apiResponse.body
+                                value = DataState.data(
+                                    data = MainViewState(
+                                        user = apiResponse.body
+                                    )
                                 )
                             }
 
                             is ApiErrorResponse -> {
-                                value = MainViewState() //Handle error?
+                                //Handle empty/error
+                                value = DataState.error(
+                                    message = "HTTP 204. Returned NOTHING!"
+                                )
                             }
 
                             is ApiEmptyResponse -> {
-                                value = MainViewState() //Handle empty/error
+                                //Handle empty/error
+                                value = DataState.error(
+                                    message = "HTTP 204. Returned NOTHING!"
+                                )
                             }
                         }
                     }

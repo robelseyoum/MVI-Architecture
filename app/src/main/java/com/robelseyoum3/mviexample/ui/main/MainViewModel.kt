@@ -10,6 +10,7 @@ import com.robelseyoum3.mviexample.repository.MainRepository
 import com.robelseyoum3.mviexample.ui.main.state.MainStateEvent
 import com.robelseyoum3.mviexample.ui.main.state.MainStateEvent.*
 import com.robelseyoum3.mviexample.util.AbsentLiveData
+import com.robelseyoum3.mviexample.util.DataState
 import com.robelseyoum3.mviexample.ui.main.state.MainViewState as MainViewState
 
 class MainViewModel: ViewModel() {
@@ -21,14 +22,14 @@ class MainViewModel: ViewModel() {
     val viewState: LiveData<MainViewState>
         get() = _viewState
 
-    val dataState: LiveData<MainViewState> = Transformations
+    val dataState: LiveData<DataState<MainViewState>> = Transformations
         .switchMap(_stateEvent){ stateEvent ->
             stateEvent?.let {
                 handleStateEvent(it)
             }
         }
 
-    private fun handleStateEvent(stateEvent: MainStateEvent): LiveData<MainViewState> {
+    private fun handleStateEvent(stateEvent: MainStateEvent): LiveData<DataState<MainViewState>> {
         return when (stateEvent) {
             is GetBlogPostEvent -> {
                 return MainRepository.getBlogPosts()
