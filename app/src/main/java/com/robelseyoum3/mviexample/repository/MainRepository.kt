@@ -1,12 +1,13 @@
 package com.robelseyoum3.mviexample.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.robelseyoum3.mviexample.model.BlogPost
 import com.robelseyoum3.mviexample.model.User
 import com.robelseyoum3.mviexample.mviexample.RetrofitBuilder
 import com.robelseyoum3.mviexample.ui.main.state.MainViewState
-import com.robelseyoum3.mviexample.util.*
+import com.robelseyoum3.mviexample.util.ApiSuccessResponse
+import com.robelseyoum3.mviexample.util.DataState
+import com.robelseyoum3.mviexample.util.GenericApiResponse
 
 object MainRepository {
 
@@ -29,7 +30,7 @@ object MainRepository {
         }.asLiveData()
     }
 
-    fun getUser(userId: String) : LiveData<DataState<MainViewState>>{
+    fun getUser(userId: String) : LiveData<DataState<MainViewState>> {
 
         return object : NetworkBoundResource<User, MainViewState>(){
 
@@ -45,6 +46,7 @@ object MainRepository {
                     )
                 )
             }
+
         }.asLiveData()
 
     }
