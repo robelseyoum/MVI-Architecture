@@ -25,6 +25,7 @@ class MainRecyclerAdapter(private val interaction: Interaction? = null) :
         }
 
     }
+
     private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
 
 
@@ -56,13 +57,11 @@ class MainRecyclerAdapter(private val interaction: Interaction? = null) :
         differ.submitList(list)
     }
 
-    class BlogPostViewHolder
-    constructor(
-        itemView: View,
-        private val interaction: Interaction?
-    ) : RecyclerView.ViewHolder(itemView) {
+    class BlogPostViewHolder constructor( itemView: View, private val interaction: Interaction?)
+        : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: BlogPost) = with(itemView) {
+
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
@@ -74,6 +73,7 @@ class MainRecyclerAdapter(private val interaction: Interaction? = null) :
                 .into(itemView.blog_image)
         }
     }
+
     //this interface is used to detect click
     interface Interaction {
         fun onItemSelected(position: Int, item: BlogPost)

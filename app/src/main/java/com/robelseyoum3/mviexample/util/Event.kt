@@ -29,7 +29,7 @@ class Event<T>(private val content: T) {
         return "Event(content=$content,hasBeenHandled=$hasBeenHandled)"
     }
 
-    companion object{
+    companion object {
 
         // we don't want an event if there's no data
         fun <T> dataEvent(data: T?): Event<T>?{
